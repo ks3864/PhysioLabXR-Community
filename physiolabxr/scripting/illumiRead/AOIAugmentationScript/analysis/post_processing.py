@@ -234,3 +234,5 @@ for trial_condition in trial_conditions:
     trial_info_dict[trial_condition] = []
     for trial_data in condition_data[trial_condition]:
         trial_info_dict[trial_condition].append(process_trial(trial_data, trial_condition, experiment_block_images))
+
+print("done")
