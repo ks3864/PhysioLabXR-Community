@@ -161,8 +161,13 @@ class ExperimentState(Enum):
     ResnetAOIAugmentationInstructionState = 12
     ResnetAOIAugmentationState = 13
 
-    FeedbackState = 14  # not used anymore
-    EndState = 15
+    NextPatchPredictionAOIAugmentationInstructionState = 14
+    NextPatchPredictionAOIAugmentationState = 15
+
+    FeedbackState = 16  # not used anymore
+    EndState = 17
+
+
 
     def get_name(self):
         if self == ExperimentState.NoAOIAugmentationState:
@@ -173,6 +178,8 @@ class ExperimentState(Enum):
             return "ViT Interactive"
         elif self == ExperimentState.ResnetAOIAugmentationState:
             return "Resnet Static"
+        elif self == ExperimentState.NextPatchPredictionAOIAugmentationState:
+            return "Next Patch Prediction"
 
 
 class ExperimentBlock(Enum):
