@@ -18,6 +18,7 @@ event_channels = [
 ReportCleanedImageInfoFilePath = r'D:\HaowenWei\PycharmProjects\PhysioLabXR\physiolabxr\scripting\AOIAugmentationScript\data\experiment_data\report_cleaned_image_info.pkl'
 #ReportCleanedImageInfoFilePath = r'D:\HaowenWei\Rena\PhysioLabXR\physiolabxr\scripting\AOIAugmentationScript\data\experiment_data\report_cleaned_image_info.pkl'
 SubImgaeHandlerFilePath = r'C:\Users\HaowenJohnWei\AppData\Local\Temp\eidl\subimage_handler\subimage_handler_0.0.22.pkl'
+NextPatchPredictionSequencesFilePath = r'D:\PhysioLabXR\physiolabxr\scripting\illumiRead\AOIAugmentationScript\data\UserStudyImagesSequence.txt'
 
 screen_width = 1920
 screen_height = 1080
@@ -30,7 +31,8 @@ image_center_y = 0
 
 #########################################################################################
 
-PracticeBlockImages = ["9071_OD_2021_widefield_report"]
+#PracticeBlockImages = ["9071_OD_2021_widefield_report"]
+PracticeBlockImages = ["9025_OD_2021_widefield_report"]
 
 TestBlockImages = [
     "9025_OD_2021_widefield_report",

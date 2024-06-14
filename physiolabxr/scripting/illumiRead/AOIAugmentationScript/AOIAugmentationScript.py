@@ -73,6 +73,8 @@ class AOIAugmentationScript(RenaScript):
 
         self.update_cue_now = False
 
+        self.next_patch_prediction_sequences = load_NextPatchPrediction_Sequences(AOIAugmentationConfig.NextPatchPredictionSequencesFilePath)
+
         print("Experiment started")
         # self.vit_attention_matrix.generate_random_attention_matrix(patch_num=1250)
 
@@ -378,11 +380,14 @@ class AOIAugmentationScript(RenaScript):
         original_image_attention_rgba = gray_image_to_rgba(original_image_attention, normalize=True,
                                                            alpha_threshold=0.9, uint8=True)
 
-        aoi_augmentation_multipart = aoi_augmentation_zmq_multipart(
+        sequence = self.next_patch_prediction_sequences[self.current_image_name]
+
+        aoi_augmentation_multipart = next_patch_prediction_zmq_multipart(
             topic="AOIAugmentationAttentionHeatmapStreamZMQInlet",
             image_name=self.current_image_name,
             image_label=self.current_image_info.label,
-            images_rgba=[original_image_rgba, original_image_attention_rgba])
+            images_rgba=[original_image_rgba, original_image_attention_rgba],
+            next_patch_prediction_sequence=sequence)
         self.aoi_augmentation_attention_heatmap_zmq_socket.send_multipart(aoi_augmentation_multipart)
 ##########################################################################################################################################################################
         print("Visualization Sent")

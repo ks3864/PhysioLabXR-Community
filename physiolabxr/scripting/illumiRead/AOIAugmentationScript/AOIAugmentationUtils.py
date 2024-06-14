@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 import cv2
 import pickle
+import ast
+import json
 
 from matplotlib import cm
 from pylsl import pylsl
@@ -242,9 +244,43 @@ def aoi_augmentation_zmq_multipart(topic, image_name, image_label, images_rgba):
 #     item_list.append(np.array(pylsl.local_clock()))
 
 
+def next_patch_prediction_zmq_multipart(topic, image_name, image_label, images_rgba, next_patch_prediction_sequence):
+    item_list = []
+    item_list.append(bytes(topic, encoding='utf-8'))
+    item_list.append(np.array(pylsl.local_clock()))
+
+    item_list.append(bytes(image_name, encoding='utf-8'))
+    item_list.append(bytes(image_label, encoding='utf-8'))
+
+    for image in images_rgba:
+        # convert from rgba to bgra
+        # image = (image*255).astype(np.uint8)
+        # assume the image is in range [0,255]
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2BGRA)
+
+        # convert image to png format
+        _, image_encoded = cv2.imencode('.png', image)
+        image_encoded = image_encoded.tobytes()
+        item_list.append(image_encoded)
 
 
 
+
+    # Convert sequence to JSON string
+    sequence_json = json.dumps(next_patch_prediction_sequence)
+    item_list.append(bytes(sequence_json, encoding='utf-8'))
+
+    return item_list
+
+def load_NextPatchPrediction_Sequences(file_path):
+    data_dict = {}
+    with open(file_path, 'r') as file:
+        for line in file:
+            line = line.strip()  # remove newline character at the end of the line
+            image_name, coords_str = line.split(' ', 1)  # split the line into image name and coordinates string
+            coords_list = ast.literal_eval(coords_str)  # convert coordinates string to list
+            data_dict[os.path.splitext(image_name)[0]] = coords_list  # store in dictionary
+    return data_dict
 
 
 def get_image_on_screen_shape(original_image_width, original_image_height, image_width, image_height,
