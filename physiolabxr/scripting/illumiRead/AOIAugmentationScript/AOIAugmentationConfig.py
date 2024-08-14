@@ -19,6 +19,7 @@ ReportCleanedImageInfoFilePath = r'D:\HaowenWei\PycharmProjects\PhysioLabXR\phys
 #ReportCleanedImageInfoFilePath = r'D:\HaowenWei\Rena\PhysioLabXR\physiolabxr\scripting\AOIAugmentationScript\data\experiment_data\report_cleaned_image_info.pkl'
 SubImgaeHandlerFilePath = r'C:\Users\HaowenJohnWei\AppData\Local\Temp\eidl\subimage_handler\subimage_handler_0.0.22.pkl'
 NextPatchPredictionSequencesFilePath = r'D:\PhysioLabXR\physiolabxr\scripting\illumiRead\AOIAugmentationScript\data\UserStudyImagesSequence.txt'
+BscanDatasetFilePath = r'C:\Users\Kuang Sun\Desktop\BscansDataset'
 
 screen_width = 1920
 screen_height = 1080
@@ -56,6 +57,32 @@ TestBlockImages = [
     "RLS_053_OD_TC",
     "RLS_148_OD_TC",
     "RLS_148_OS_TC" # only for user study 2 Static vs Dynamic
+]
+
+BscanPracticeBlockImages = ["169_OD"]
+
+BscanTestBlockImages = [
+    "19_OD",
+    "65_OD",
+    "71_OD",
+    "120_OS"
+    "151_OS",
+    "173_OS",
+    "214_OS",
+    "238_OS",
+    "260_OS",
+    "274_OS",
+
+    "4_OS",
+    "17_OD",
+    "40_OD",
+    "47_OS",
+    "85_OD",
+    "104_OD",
+    "128_OD",
+    "139_OS",
+    "156_OS",
+    "212_OD"
 ]
 
 

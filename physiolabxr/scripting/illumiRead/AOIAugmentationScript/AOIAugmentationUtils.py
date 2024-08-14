@@ -263,12 +263,30 @@ def next_patch_prediction_zmq_multipart(topic, image_name, image_label, images_r
         image_encoded = image_encoded.tobytes()
         item_list.append(image_encoded)
 
-
-
-
     # Convert sequence to JSON string
     sequence_json = json.dumps(next_patch_prediction_sequence)
     item_list.append(bytes(sequence_json, encoding='utf-8'))
+
+    return item_list
+
+def bscans_zmp_multipart(topic, image_name, image_label, images_rgba):
+    item_list = []
+    item_list.append(bytes(topic, encoding='utf-8'))
+    item_list.append(np.array(pylsl.local_clock()))
+
+    item_list.append(bytes(image_name, encoding='utf-8'))
+    item_list.append(bytes(image_label, encoding='utf-8'))
+
+    for image in images_rgba:
+        # convert from rgba to bgra
+        # image = (image*255).astype(np.uint8)
+        # assume the image is in range [0,255]
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2BGRA)
+
+        # convert image to png format
+        _, image_encoded = cv2.imencode('.png', image)
+        image_encoded = image_encoded.tobytes()
+        item_list.append(image_encoded)
 
     return item_list
 
@@ -281,6 +299,52 @@ def load_NextPatchPrediction_Sequences(file_path):
             coords_list = ast.literal_eval(coords_str)  # convert coordinates string to list
             data_dict[os.path.splitext(image_name)[0]] = coords_list  # store in dictionary
     return data_dict
+
+
+def load_bscans_dataset(dataset_dir):
+    bscans_info = {}
+    dirs = os.listdir(dataset_dir)
+
+    for dir in dirs:
+        if (dir[0] == '.'):
+            continue
+
+        image_folders = os.listdir(os.path.join(dataset_dir, dir))
+        for image_folder in image_folders:
+            if (image_folder[0] == '.'):
+                continue
+
+            heatmaps = []
+            bscans = []
+
+            image_names = os.listdir(os.path.join(dataset_dir, dir, image_folder))
+            for image_name in image_names:
+                if (image_name[0] == '.'):
+                    continue
+
+                image = cv2.imread(os.path.join(dataset_dir, dir, image_folder, image_name), cv2.IMREAD_UNCHANGED)
+                if 'heatmap' in image_name:
+                    heatmaps.append(image)
+                else:
+                    bscans.append(image)
+
+            # if heatmaps is empty, then make heatmaps the same as bscans
+            if len(heatmaps) == 0:
+                heatmaps = bscans
+
+            bscans_imageInfo = ImageInfo()
+            bscans_imageInfo.image_name = image_folder
+            bscans_imageInfo.original_image = bscans[0]
+            bscans_imageInfo.updated_image = bscans[0]
+            bscans_imageInfo.sub_images = bscans
+            bscans_imageInfo.label = dir
+            bscans_imageInfo.original_image_attention = heatmaps[0]
+            bscans_imageInfo.subimage_attention = heatmaps
+            bscans_imageInfo.subimage_position = None
+
+            bscans_info[image_folder] = bscans_imageInfo
+
+    return bscans_info
 
 
 def get_image_on_screen_shape(original_image_width, original_image_height, image_width, image_height,
