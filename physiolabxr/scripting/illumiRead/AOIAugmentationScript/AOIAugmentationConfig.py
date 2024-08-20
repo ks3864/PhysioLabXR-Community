@@ -59,30 +59,31 @@ TestBlockImages = [
     "RLS_148_OS_TC" # only for user study 2 Static vs Dynamic
 ]
 
-BscanPracticeBlockImages = ["169_OD"]
+#BscanPracticeBlockImages = ["169_OD"]
+BscanPracticeBlockImages = ["067_wet"]
 
 BscanTestBlockImages = [
-    "19_OD",
-    "65_OD",
-    "71_OD",
-    "120_OS"
-    "151_OS",
-    "173_OS",
-    "214_OS",
-    "238_OS",
-    "260_OS",
-    "274_OS",
+    "012_wet",
+    "035_wet",
+    "039_wet",
+    "046_wet"
+    "066_wet",
+    "081_wet",
+    "094_wet",
+    "107_wet",
+    "111_wet",
+    "115_wet",
 
-    "4_OS",
-    "17_OD",
-    "40_OD",
-    "47_OS",
-    "85_OD",
-    "104_OD",
-    "128_OD",
-    "139_OS",
-    "156_OS",
-    "212_OD"
+    "035_normal",
+    "038_normal",
+    "041_normal",
+    "047_normal",
+    "048_normal",
+    "059_normal",
+    "069_normal",
+    "078_normal",
+    "084_normal",
+    "091_normal"
 ]
 
 
